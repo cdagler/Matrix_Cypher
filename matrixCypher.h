@@ -25,6 +25,7 @@ public:
 private:
 	void loadCharMap();
 	int charToInt(char ch);
+	int intToChar(char ch);
 
 	static const int NUM_OF_CHARS = 93;
 
@@ -147,4 +148,12 @@ int MatrixCypher::charToInt(char ch){
 			return charVals[i];
 
 	return 0;
+}
+
+char MatrixCypher::intToChar(int n){
+	for(int i=0; i<NUM_OF_CHARS; i++)
+		if(n == charVals[i])
+			return chars[i];
+
+	return ' ';
 }
