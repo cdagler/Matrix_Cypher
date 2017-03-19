@@ -25,7 +25,7 @@ public:
 private:
 	void loadCharMap();
 	int charToInt(char ch);
-	int intToChar(char ch);
+	char intToChar(int n);
 
 	static const int NUM_OF_CHARS = 93;
 
@@ -97,13 +97,17 @@ void MatrixCypher::incodeMessage(string messageFileName, string cypherFileName){
 		messageRow2.push_back(0);
 
 	//////////////////////////////////////////////////////////////////////////////
-	//          Incoding the Message and writting it to the file.               //
+	//                        Incoding the Message                              //
 	//////////////////////////////////////////////////////////////////////////////
 
 	for(int i=0; i<numOfCols; i++){
 		cypherRow1.push_back(1*messageRow1.at(i)+4*messageRow2.at(i));
 		cypherRow2.push_back(-1*messageRow1.at(i)-3*messageRow2.at(i));
 	}
+
+	//////////////////////////////////////////////////////////////////////////////
+	//                Writting the incoded message to a file                    //
+	//////////////////////////////////////////////////////////////////////////////
 
 	ofstream outFile(cypherFileName.c_str());
 	if(!outFile.is_open())
@@ -112,10 +116,17 @@ void MatrixCypher::incodeMessage(string messageFileName, string cypherFileName){
 		exit(1);
 	}
 
-	for(int i=0; i<numOfCols; i++)
-		outFile << cypherRow1.at(i) << ' ';
-	for(int i=0; i<numOfCols-1; i++)
-		outFile << cypherRow2.at(i) << ' ';
+	currentNum = 1;
+	for(int i=0; i<numOfCols; i++){
+		outFile << cypherRow1.at(i);
+		currentNum%10==0 ? outFile<<'\n' : outFile<<'\t';
+		currentNum++;
+	}
+	for(int i=0; i<numOfCols-1; i++){
+		outFile << cypherRow2.at(i);
+		currentNum%10==0 ? outFile<<'\n' : outFile<<'\t';
+		currentNum++;
+	}
 	outFile << cypherRow2.at(numOfCols-1) << endl;
 
 	cout << endl << endl;
@@ -125,9 +136,77 @@ void MatrixCypher::incodeMessage(string messageFileName, string cypherFileName){
 	outFile.close();
 }
 
-
 void MatrixCypher::decodeMessage(string cypherFileName, string messageFileName){
+	int totalNumOfChars=0, numOfCols, n=1, currentNum;
+	vector<int> nums;
 
+	//////////////////////////////////////////////////////////////////////////////
+	//                        Reading in the File.                              //
+	//////////////////////////////////////////////////////////////////////////////
+	ifstream inFile(cypherFileName.c_str());
+	if(!inFile.is_open())
+	{
+		cerr << "I can not find \"" << cypherFileName << "\"!!" << endl;
+		exit(1);
+	}
+
+	while(inFile >> currentNum){
+		nums.push_back(currentNum);
+		totalNumOfChars ++;
+	}
+
+	inFile.close();
+
+	if(totalNumOfChars%2==0)
+		numOfCols = totalNumOfChars/2;
+	else
+		numOfCols = totalNumOfChars/2+1;
+
+	//////////////////////////////////////////////////////////////////////////////
+	//                      Adding the numbers to the matrix                    //
+	//////////////////////////////////////////////////////////////////////////////
+
+	for(int i=0; i<numOfCols; i++)
+		cypherRow1.push_back(nums.at(i));
+	for(int i=numOfCols; i<2*numOfCols; i++)
+		cypherRow2.push_back(nums.at(i));
+
+	//////////////////////////////////////////////////////////////////////////////
+	//                        Decoding the Message                              //
+	//////////////////////////////////////////////////////////////////////////////
+
+	for(int i=0; i<numOfCols; i++){
+		messageRow1.push_back(-3*cypherRow1.at(i)-4*cypherRow2.at(i));
+		messageRow2.push_back(1*cypherRow1.at(i)+1*cypherRow2.at(i));
+	}
+
+	//////////////////////////////////////////////////////////////////////////////
+	//                Writting the decoded message to a file                    //
+	//////////////////////////////////////////////////////////////////////////////
+
+		ofstream outFile(messageFileName.c_str());
+		if(!outFile.is_open())
+		{
+			cerr << "I can not find \"" << messageFileName << "\"!!" << endl;
+			exit(1);
+		}
+
+		for(int i=0; i<numOfCols; i++){
+			outFile << messageRow1.at(i);
+		}
+		for(int i=0; i<numOfCols-1; i++){
+			outFile << messageRow2.at(i);
+		}
+		if(messageRow2.at(numOfCols-1) == ' ')
+			outFile << endl;
+		else
+			outFile << messageRow2.at(numOfCols-1) << endl;
+
+		cout << endl << endl;
+		cout << "Incoded Message was written to \"" <<  cypherFileName << "\".";
+		cout << endl << endl;
+
+		outFile.close();
 }
 
 void MatrixCypher::loadCharMap(){
