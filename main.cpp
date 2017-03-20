@@ -11,8 +11,7 @@
 
 #include "matrixCypher.h"
 
-int main()
-{
+int main() {
 	MatrixCypher matrixCypher;
 	int option;
 	string plainFileName, cyphterFileName;
