@@ -15,16 +15,29 @@ int main()
 {
 	MatrixCypher matrixCypher;
 	int option;
+	string plainFileName, cyphterFileName;
 
 	cout << "What is the task: " << endl;
 	cout << "  1: Encode a message." << endl;
 	cout << "  2: Decode a message." << endl;
 	cin >> option;
 
-	if(option == 1)
-		matrixCypher.incodeMessage("plain.txt", "cypher.txt");
-	else if(option == 2)
-		matrixCypher.decodeMessage("cypher.txt", "plain.txt");
+	if(option == 1){
+		cout << "Enter the name of the file that has the message to incode:" << endl;
+		cin >> plainFileName;
+		cout << "Enter the name of the file that will hold the encrypted message:" << endl;
+		cin >> cyphterFileName;
+
+		matrixCypher.incodeMessage(plainFileName, cyphterFileName);
+	}
+	else if(option == 2){
+		cout << "Enter the name of the file that has the encrypted message:" << endl;
+		cin >> cyphterFileName;
+		cout << "Enter the name of the file that will hold the decrypted message:" << endl;
+		cin >> plainFileName;
+
+		matrixCypher.decodeMessage(cyphterFileName, plainFileName);
+	}
 	else
 		cout << "What???" << endl << endl;
 
