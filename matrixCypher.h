@@ -187,7 +187,7 @@ void MatrixCypher::decodeMessage(string cypherFileName, string messageFileName) 
 }
 
 int MatrixCypher::charToInt(char ch) {
-	for(int i=0; i<92; i++)
+	for(int i=0; i<chars.length(); i++)
 		if(ch == chars[i])
 			return i;
 
@@ -195,7 +195,7 @@ int MatrixCypher::charToInt(char ch) {
 }
 
 char MatrixCypher::intToChar(int n) {
-	for(int i=1; i<92; i++)
+	for(int i=1; i<chars.length(); i++)
 		if(n == i)
 			return chars[i];
 
