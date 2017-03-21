@@ -23,25 +23,29 @@ public:
 	void decodeMessage(string cypherFileName, string messageFileName);
 
 private:
+	void loadCharMap();
 	int charToInt(char ch);
 	char intToChar(int n);
+
+	static const int NUM_OF_CHARS = 94;
 
 	vector<int> messageRow1;
 	vector<int> messageRow2;
 	vector<int> cypherRow1;
 	vector<int> cypherRow2;
 
-	string chars;
+	char chars[NUM_OF_CHARS];
+	int charVals[NUM_OF_CHARS];
 };
 
 MatrixCypher::MatrixCypher() {
-	chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz,./?;:[{]}|~!@#$%^&*()-_+=\n\t\\\'\"";
+	loadCharMap();
 }
 
 void MatrixCypher::incodeMessage(string messageFileName, string cypherFileName) {
-	int numOfCols, n=1, currentNum;
-	vector<char> message;
-	char ch;
+	int totalNumOfChars=0, numOfCols, n=1, currentNum;
+	vector<string> words;
+	string word;
 
 	//////////////////////////////////////////////////////////////////////////////
 	//                        Reading in the File.                              //
@@ -52,31 +56,40 @@ void MatrixCypher::incodeMessage(string messageFileName, string cypherFileName) 
 		exit(1);
 	}
 
-	while(inFile.get(ch)) {
-		message.push_back(ch);
+	while(inFile >> word) {
+		words.push_back(word);
+		totalNumOfChars += word.size();
 	}
 
 	inFile.close();
 
-	if(message.size()%2==0)
-		numOfCols = message.size()/2;
+	//Counting the white spaces
+	totalNumOfChars += words.size()-1;
+
+	if(totalNumOfChars%2==0)
+		numOfCols = totalNumOfChars/2;
 	else
-		numOfCols = message.size()/2+1;
+		numOfCols = totalNumOfChars/2+1;
 
 	//////////////////////////////////////////////////////////////////////////////
 	//                   Converting the Chars to Integers.                      //
 	//////////////////////////////////////////////////////////////////////////////
 
-	for(int i=0; i<message.size(); i++) {
-		if(n<=numOfCols)
-			messageRow1.push_back(charToInt(message.at(i)));
-		else
-			messageRow2.push_back(charToInt(message.at(i)));
+	for(int i=0;i<words.size();i++) {
+		for(int j=0; j<words.at(i).size(); j++) {
+			if(n<=numOfCols)
+				messageRow1.push_back(charToInt(words.at(i)[j]));
+			else
+				messageRow2.push_back(charToInt(words.at(i)[j]));
+			n++;
+		}
+		//Adding a space between words.
+		n<=numOfCols ? messageRow1.push_back(0) : messageRow2.push_back(0);
 		n++;
 	}
 
 	//Adding a space if then is an odd number of chars.
-	if(message.size()%2!=0)
+	if(totalNumOfChars%2!=0)
 		messageRow2.push_back(0);
 
 	//////////////////////////////////////////////////////////////////////////////
@@ -176,8 +189,10 @@ void MatrixCypher::decodeMessage(string cypherFileName, string messageFileName) 
 		for(int i=0; i<numOfCols-1; i++)
 			outFile << intToChar(messageRow2.at(i));
 
-		if(messageRow2.at(numOfCols-1) != 0)
-			outFile << intToChar(messageRow2.at(numOfCols-1));
+		if(messageRow2.at(numOfCols-1) == 0)
+			outFile << endl;
+		else
+			outFile << intToChar(messageRow2.at(numOfCols-1)) << endl;
 
 		cout << endl << endl;
 		cout << "Incoded Message was written to \"" <<  messageFileName << "\".";
@@ -186,17 +201,33 @@ void MatrixCypher::decodeMessage(string cypherFileName, string messageFileName) 
 		outFile.close();
 }
 
+void MatrixCypher::loadCharMap() {
+	ifstream charFile("char_map.dat");
+	if(!charFile.is_open()) {
+		cerr << "Error: I can not find 'char_map.txt'." << endl;
+		exit(1);
+	}
+
+	for(int i=0; i<NUM_OF_CHARS; i++)
+		charFile >> chars[i] >> charVals[i];
+}
+
 int MatrixCypher::charToInt(char ch) {
-	for(int i=0; i<92; i++)
+	for(int i=0; i<NUM_OF_CHARS; i++)
 		if(ch == chars[i])
-			return i;
+			return charVals[i];
 
 	return 0;
 }
 
 char MatrixCypher::intToChar(int n) {
-	for(int i=1; i<92; i++)
-		if(n == i)
+	if(n==0)
+		return ' ';
+	else if(n==67)
+		return '\n';
+
+	for(int i=1; i<NUM_OF_CHARS; i++)
+		if(n == charVals[i])
 			return chars[i];
 
 	return ' ';

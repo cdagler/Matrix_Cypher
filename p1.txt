@@ -1,1 +1,29 @@
-What is Computer Science? Computer science is a discipline that spans theory and practice. It requires thinking both in abstract terms and in concrete terms. The practical side of computing can be seen everywhere. Nowadays, practically everyone is a computer user, and many people are even computer programmers. Getting computers to do what you want them to do requires intensive hands-on experience. But computer science can be seen on a higher level, as a science of problem solving. Computer scientists must be adept at modeling and analyzing problems. They must also be able to design solutions and verify that they are correct. Problem solving requires precision, creativity, and careful reasoning. Computer science also has strong connections to other disciplines. Many problems in science, engineering, health care, business, and other areas can be solved effectively with computers, but finding a solution requires both computer science expertise and knowledge of the particular application domain. Thus, computer scientists often become proficient in other subjects. Finally, computer science has a wide range of specialties. These include computer architecture, software systems, graphics, artifical intelligence, computational science, and software engineering. Drawing from a common core of computer science knowledge, each specialty area focuses on particular challenges. Computer Science is practiced by mathematicians, scientists and engineers. Mathematics, the origins of Computer Science, provides reason and logic. Science provides the methodology for learning and refinement. Engineering provides the techniques for building hardware and software
+What is Computer Science?
+
+Computer science is a discipline that spans theory and practice. It requires
+thinking both in abstract terms and in concrete terms. The practical side of
+computing can be seen everywhere. Nowadays, practically everyone is a computer
+user, and many people are even computer programmers. Getting computers to do
+what you want them to do requires intensive hands-on experience. But computer
+science can be seen on a higher level, as a science of problem solving. Computer
+scientists must be adept at modeling and analyzing problems. They must also be
+able to design solutions and verify that they are correct. Problem solving
+requires precision, creativity, and careful reasoning.
+
+Computer science also has strong connections to other disciplines. Many problems
+in science, engineering, health care, business, and other areas can be solved
+effectively with computers, but finding a solution requires both computer
+science expertise and knowledge of the particular application domain. Thus,
+computer scientists often become proficient in other subjects.
+
+Finally, computer science has a wide range of specialties. These include
+computer architecture, software systems, graphics, artifical intelligence,
+computational science, and software engineering. Drawing from a common core of
+computer science knowledge, each specialty area focuses on particular
+challenges.
+
+Computer Science is practiced by mathematicians, scientists and engineers.
+Mathematics, the origins of Computer Science, provides reason and logic. Science
+provides the methodology for learning and refinement. Engineering provides the
+techniques for building hardware and software.
+
