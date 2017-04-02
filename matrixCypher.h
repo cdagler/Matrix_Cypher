@@ -35,7 +35,7 @@ private:
 };
 
 MatrixCypher::MatrixCypher() {
-	chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz,./?;:[{]}|~!@#$%^&*()-_+=\n\t\\\'\"";
+	chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz,./?;:[{]}|~!@#$%^&*()-_+=\n\t\\\'\" ";
 }
 
 void MatrixCypher::incodeMessage(string messageFileName, string cypherFileName) {
@@ -195,7 +195,7 @@ int MatrixCypher::charToInt(char ch) {
 }
 
 char MatrixCypher::intToChar(int n) {
-	for(int i=1; i<chars.length(); i++)
+	for(int i=0; i<chars.length(); i++)
 		if(n == i)
 			return chars[i];
 
